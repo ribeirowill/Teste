@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:data="http://www.thymeleaf.org/extras/data"
+	layout:decorate="~{layout/LayoutPadrao}"
+	xmlns:cofipa="http://cofipa.pc.com">
+
+<head>
+	<title>Cadastro Saida Produtos</title>
+	
+	<link rel="stylesheet" th:href="@{/stylesheets/vendors/easy-autocomplete.min.css}">
+	<link rel="stylesheet" th:href="@{/stylesheets/vendors/easy-autocomplete.themes.min.css}">
+</head>
+
+<section layout:fragment="conteudo">
+
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-10">
+					<h1>Cadastro de saida de produtos</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container-fluid">
+		<form method="POST" th:action="@{/saidas/nova}" th:object="${saida}">
+		  <cofipa:message/>
+		
+			<input type="hidden" id="uuid" th:field="*{uuid}"/>
+			
+			<div class="row">
+				<div class="col-sm-4">
+					<div class="aw-box">
+						<div class="aw-box__icon">
+							<i class="fa  fa-usd  fa-3x"></i>
+						</div>
+						<div class="aw-box__value">R$<span class="js-valor-total-box"></span></div>
+						<div class="aw-box__title">Total</div>
+					</div>
+				</div>
+				
+				<div class="col-sm-4">
+					<div class="aw-box">
+						<div class="aw-box__icon">
+							<i class="fa  fa-tag  fa-3x"></i>
+						</div>
+						<div class="aw-box__value">Pedido</div>
+						<div class="aw-box__title">Status</div>
+					</div>
+				</div>
+				
+				<div class="col-sm-4">
+					<div class="aw-box">
+						<div class="aw-box__icon">
+							<i class="fa  fa-calendar  fa-3x"></i>
+						</div>
+						<div class="aw-box__value">
+							<span class="js-tooltip">Hoje</span>
+						</div>
+						<div class="aw-box__title">Criação</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-sm-3  form-group bw-required " cofipa:classforerror="departamento" >
+						<label for="departamento" class="control-label">Departamento</label>
+						<div class="bw-field-action">
+						<select id="departamento" class="form-control" th:field="*{departamento}" >
+							<option value="">Selecione o Departamento</option>
+							<option th:each="departamento : ${departamentos}" th:value="${departamento.codigo}" th:text="${departamento.nome}">Corregepol</option>
+						</select>
+					</div>
+					</div>
+				
+				<div class="col-sm-3  form-group  bw-required " cofipa:classforerror="divisao">
+						<label for="divisao" class="control-label">Divisão</label>
+						<div class="bw-field-action">
+							<input type="hidden" id="inputHiddenDivisaoSelecionada" th:value="*{divisao} != null ? *{divisao.codigo}"/>
+							  <select id="divisao" class="form-control" data:url="@{/divisoes}" th:field="*{divisao}"  >
+							  <!--  <option th:each="divisao : ${divisoes}" th:value="${divisao.codigo}" th:text="${divisao.nome}" th:selected="selected" ></option>  -->
+							 
+						</select>
+					    <div class="bw-field-action__icon js-img-loading" style:"display: none" >
+					       <img th:src="@{/layout/imagens/mini-loading.gif}"/>
+					   </div>
+					 </div>
+				 </div>
+		          <div class="col-sm-6  form-group bw-required " cofipa:classforerror="secao">
+						<label for="secao" class="control-label">Seção</label>
+						<div class="bw-field-action">
+						  <input type="hidden" id="inputHiddenSecaoSelecionada" th:value="*{secao} != null ? *{secao.nome} " /> 
+							  <select id="secao" name="secao" class="form-control"  data:url="@{/secoes}" th:field="*{secao}">
+						        <option value="" th:text="*{secao} != null ? *{secao.nome}" >Selecione uma seção</option>
+							
+        				       
+						</select>
+					
+					<div class="bw-field-action__icon js-img-loading" style:"display: none"   >
+					    <img th:src="@{/layout/imagens/mini-loading.gif}"/>
+					</div>
+					</div>
+				</div>
+			</div>		
+
+			<div class="row">
+				<div class="form-group  col-sm-4  bw-required">
+					<label class="control-label" for="nomefuncionario">Funcionario</label>
+					<div class="input-group">
+				      <input id="nomeFuncionario" type="text" readonly="readonly" class="form-control" placeholder="Clique na lupa para pesquisar o Funcionario"/>
+				      <input id="codigoFuncionario" type="hidden" th:field="*{funcionario}"/>
+				      <span class="input-group-btn">
+				        <button class="btn  btn-default  js-tooltip" type="button" title="Pesquisa avançada"
+				                data-toggle="modal" data-target="#pesquisaRapidaFuncionarios">
+				        	<i class="glyphicon  glyphicon-search"></i>
+				        </button>
+				      </span>
+				    </div>
+				</div>
+				</div>
+				
+			
+			<div class="row">
+				<div class="form-group  col-lg-12">
+					<ul class="nav nav-tabs  js-abas-venda">
+					  <li role="presentation" class="active"><a href="#produtos">Produtos</a></li>
+					  
+					</ul>
+				</div>
+			</div>
+			
+			<div class="tab-content">
+				<div class="tab-pane active" id="produtos">
+
+					<div class="row">
+						<div class="form-group  col-lg-12">
+							<input type="text" class="form-control js-descricao-produto-input" id="produto" 
+								placeholder="Pesquise e adicione o produto pela descrição" autofocus="autofocus" 
+								data:url="@{/produtos}"/>
+						</div>
+					</div>
+					
+					<div class="bw-tabela-produtos js-tabela-produtos-container">
+						<div class="bw-tabela-produtos__vazio">
+							<i class="glyphicon  glyphicon-shopping-cart"></i> 
+							<span>Você ainda não adicionou nenhum produto.</span>
+						</div>  
+					</div>
+				</div>
+				</div>
+			
+			
+			<div class="row" style="clear: both">
+				<div class="col-lg-12">
+					<div class="btn-group">
+					  <button type="submit" class="btn  btn-primary">Salvar</button>
+					  <button type="button" class="btn  btn-primary  dropdown-toggle" data-toggle="dropdown">
+					    <span class="caret"></span>
+					  </button>
+					  
+					  <ul class="dropdown-menu">
+					    <li><a href="#">Salvar e emitir</a></li>
+					    <li><a href="#">Salvar e enviar por e-mail</a></li>
+					  </ul>
+					</div>
+				
+					<button class="btn  btn-danger">Cancelar</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<th:block th:replace="funcionario/PesquisaRapidaFuncionarios :: pesquisaRapidaFuncionarios"></th:block>
+	<th:block th:replace="hbs/TemplateAutocompleteProduto"></th:block>
+</section>
+
+<th:block layout:fragment="javascript-extra">
+<script th:src="@{/javascripts/vendors/jquery.easy-autocomplete.min.js}"></script>
+<script th:src="@{/javascripts/vendors/handlebars.min.js}"></script>
+<script th:src="@{/javascripts/funcionario.pesquisa-rapida.js}"></script>
+<script th:src="@{/javascripts/patrimonio.combo.departamento-divisao-secao.js}"></script>
+<script th:src="@{/javascripts/saida.autocomplete-itens.js}"></script>
+<script th:src="@{/javascripts/saida.tabela-itens.js}"></script>
+<script th:src="@{/javascripts/saida.js}"></script>
+<script>
+$(function() {
+	$('.js-abas-venda a').click(function (e) {
+		e.preventDefault();
+		$(this).tab('show');
+	});
+});
+</script>
+</th:block>
+
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:cofipa="http://cofipa.pc.com"
+	layout:decorate="~{layout/LayoutPadrao}">
+
+<head>
+	<title>Cadastro de Funcionarios</title>
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/stylesheets/vendors/bootstrap-switch.min.css}"/>
+	
+	
+</head>
+
+<section layout:fragment="conteudo">
+
+	<div class="page-header">
+		<div class="container-fluid">
+			 <div class="row">
+			      <div class="col-xs-10">
+			      <h1 th:if="${funcionario.novo}">Cadastro de Funcionários</h1>
+				  <h1 th:unless="${funcionario.novo}" th:text="|Edição do funcionario  ${funcionario.nome}|">Cadastro de funcionário</h1>
+				     
+				   </div>
+				   
+				   <div class="col-xs-2"> 
+			             <div class="aw-page-header-controls">
+			                 <a class="btn btn-default" th:href="@{/funcionarios}">
+			                      <i class="glyphicon  glyphicon-plus-sign"></i><span class="hidden-xs hidden-sm">Pesquisa</span>
+			                  </a>
+			             </div>
+			        </div>
+			   </div>
+			</div>
+		</div>
+	
+	<div class="container-fluid">
+		<form method="POST" th:object="${funcionario}" class="form-vertical  js-form-loading"
+		th:action="@{/funcionarios/novo} ? @{/funcionarios/novo} : @{/funcionarios/{codigo}(codigo=${funcionario.codigo})}">
+			<cofipa:message/>
+			
+			
+			<div class="row">
+				<div class="form-group  col-sm-12 bw-required" cofipa:classforerror="nome">
+					<label for="nome" class="control-label">Nome</label>
+					<input type="text" class="form-control" id="nome" autofocus="autofocus" th:field="*{nome}"/>
+				</div>
+			</div>
+				
+			<div class="row">
+				<div class="form-group  col-sm-8 bw-required" cofipa:classforerror="email">
+					<label for="email" class="control-label">E-mail</label>
+					<input type="text" class="form-control" id="email" th:field="*{email}"/>
+				</div>
+				<div class="form-group  col-sm-4 bw-required" >
+					<label for="rg" class="control-label">RG</label>
+					<input type="text" class="form-control " id="rg" th:field="*{rg}"/>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group  col-sm-6 " cofipa:classforerror="carreira" >
+					<label for="carreira" class="control-label">Carreira</label> 
+					<input type="text" class="form-control" id="carreira" th:field="*{carreira}"/>
+				</div>
+				
+				<div class="form-group  col-sm-3 " cofipa:classforerror="rs">
+					<label for="rs" class="control-label">RS</label> 
+					<input type="text" class="form-control" id="rs" th:field="*{rs}"/>
+				</div>
+				
+				<div class="form-group  col-sm-3">
+					<label class="control-label">Status</label>
+					<div>
+						<input type="checkbox" class="js-status" data-size="small" data-off-color="danger" 
+						       data-on-text="Ativo" data-off-text="Inativo" th:field="*{ativo}"/>
+						
+					</div>
+				</div>
+				
+			</div>
+					
+			
+			<button type="submit" class="btn  btn-primary">Salvar</button>
+		</form>
+	</div>
+
+</section>
+<th:block layout:fragment="javascript-extra">
+    <script th:src="@{/javascripts/vendors/bootstrap-switch.min.js}"></script>
+    
+    <script>
+         $('.js-status').bootstrapSwitch();
+    </script>
+</th:block>
+</html>

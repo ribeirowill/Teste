@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/LayoutPadrao}"
+	xmlns:cofipa="http://cofipa.pc.com"
+	xmlns:data="http://www.thymeleaf.org/extras/data">
+	
+<head>
+	<title>Pesquisa Materiais Informática</title>
+</head>
+
+<body>
+<section layout:fragment="conteudo">
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-10">
+					<h1>Pesquisa de Materiais mobiliario</h1>
+				</div>
+				
+				<div class="col-xs-2">
+					<div class="aw-page-header-controls">
+						<a class="btn  btn-default" th:href="@{/materiaisMobiliario/novo}">
+							<i class="glyphicon  glyphicon-plus-sign"></i> <span class="hidden-xs  hidden-sm">Novo Material Mobiliario</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container-fluid">
+		<form method="GET" th:object="${materialMobiliarioFilter}">
+			<div class="row">
+				<div class="form-group  col-sm-8">
+					<label class="control-label" for="descricao">Descrição Material</label>
+					<input type="text" class="form-control" id="descricao" autofocus="autofocus" th:field="*{descricao}"/>
+				</div>
+			
+				<div class="form-group  col-sm-4">
+					<label class="control-label" for="unidade">Unidade</label>
+					<select id="unidade" class="form-control" th:field="*{unidade}">
+	                    <option value="">Todas as unidades</option>
+	                    <option th:each="unidade : ${unidades}" th:text="${unidade.descricao}" th:value="${unidade.codigo}"></option>
+	                </select>
+				</div>
+				</div>
+				
+				<div class="row">
+				<div class="form-group  col-sm-6">
+					<label class="control-label" for="fornecedor">Fornecedor</label>
+					<select id="fornecedor" class="form-control" th:field="*{fornecedor}">
+	                    <option value="">Todas os fornecedores</option>
+	                    <option th:each="fornecedor : ${fornecedores}" th:text="${fornecedor.nome}" th:value="${fornecedor.codigo}"></option>
+	                </select>
+				</div>
+				<div class="form-group  col-sm-6">
+					<label class="control-label" for="itemMaterialMobiliario">Item Materiais </label>
+					<select id="itemMaterialMobiliario" class="form-control" th:field="*{itemMaterialMobiliario}">
+	                    <option value="">Todos os Materiais</option>
+	                    <option th:each="itemMaterialMobiliario : ${itensMateriaisMobiliario}" th:text="${itemMaterialMobiliario.descricao}" th:value="${itemMaterialMobiliario.codigo}"></option>
+	                </select>
+				</div>
+				</div>
+				
+				<div class="row">
+				 <div class="form-group  col-sm-4">
+					<label class="control-label" for="valorUnitario">Valor Unitário</label>
+					<input type="text" class="form-control" id="valaorUnitario" th:field="*{valorUnitario}"/>
+				</div>
+				
+				<div class="form-group  col-sm-4">
+					<label class="control-label" for="valorTotal">Valor Total</label>
+					<input type="text" class="form-control" id="valaorTotal" th:field="*{valorTotal}"/>
+				</div>
+				
+				<div class="form-group  col-sm-4">
+					<label class="control-label" for="quantidade">Quantidade</label>
+					<input type="text" class="form-control" id="quantidade" th:field="*{quantidade}"/>
+				</div>
+				</div>
+				
+			
+				
+				
+			<button type="submit" class="btn  btn-primary">Pesquisar</button>
+		</form>
+		
+		<div class="table-responsive  bw-tabela-simples">
+			<table class="table  table-hover">
+				<thead>
+					<tr>
+						<th class="table-materiaisMobiliario-col-foto"></th>  
+						
+						<th class="table-materiaisMobiliario-col-descricao">
+						<cofipa:order page="${pagina}" field="descricao" text="Descricao"/>
+						</th>
+						
+						<th class="table-materiaisMobiliario-col-unidade">
+						<cofipa:order page="${pagina}" field="unidade" text="Unidade"/>
+						</th>
+								
+						<th class="table-materiaisMobiliario-col-fornecedor">
+						<cofipa:order page="${pagina}" field="fornecedor" text="Fornecedor"/>
+						</th>
+							
+						<th class="table-materiaisMobiliario-col-itemMaterialMobiliario">
+						<cofipa:order page="${pagina}" field="itemMaterialMobiliario" text="Item-Mobiliario"/>
+						</th>
+						
+						<th class="table-materiaisMobiliario-col-valorUnitario">
+						<cofipa:order page="${pagina}" field="valorUnitario" text="Vlr Unitario"/>
+						</th>
+						
+						<th class="table-materiaisMobiliario-col-valorTotal">
+						<cofipa:order page="${pagina}" field="valorTotal" text="Vlr Total"/>
+						</th>	
+						
+						<th class="table-materiaisMobiliario-col-quantidade">
+						<cofipa:order page="${pagina}" field="quantidade" text="qtde"/>
+						</th>
+						
+						<th class="table-materiaisMobiliario-col-acoes"></th>
+					</tr>
+				</thead>
+				
+				<tbody>
+					<tr th:each="materialMobiliario : ${pagina.conteudo}"> 
+                       <td class="text-center">
+						      <img th:src="@{/fotos/thumbnail.{foto}(foto=${materialMobiliario.fotoOuMock})}" class="img-responsive"/> 
+						</td>
+						
+						
+						
+						<td th:text="${materialMobiliario.descricao}">Descrição</td>
+						<td th:text="${materialMobiliario.unidade.descricao}">Unidade</td>
+						<td th:text="${materialMobiliario.fornecedor.nome}">Fornecedor</td>
+					    <td th:text="${materialMobiliario.itemMaterialMobiliario.descricao}">Item Material</td>
+						<td th:text="${materialMobiliario.valorUnitario}">Unitário</td>
+						<td th:text="${materialMobiliario.valorTotal}">Total</td>
+						<td th:text="${materialMobiliario.quantidade}">Qtde</td>
+		 					
+						<td class="text-center">
+							<a class="btn  btn-link  btn-xs js-tooltip" title="Editar"
+							      th:href="@{/materiaisMobiliario/{codigo}(codigo=${materialMobiliario.codigo})}"> 
+								<i class="glyphicon glyphicon-pencil"></i>
+							</a>
+							<a class="btn  btn-link  btn-xs js-tooltip js-exclusao-btn" title="Excluir" href="#" 
+							          data:url="@{/materiaisMobiliario/{codigo}(codigo=${materialMobiliario.codigo})}"
+							          data:objeto="${materialMobiliario.descricao}">
+								<i class="glyphicon glyphicon-remove"></i>
+							</a>
+						</td>
+					  <tr>
+					    <tr th:if="${pagina.vazia}">
+					      <td colspan="6">Nenhum Material encontrado</td>
+						</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<cofipa:pagination page="${pagina}"/>
+	</div>
+
+</section>
+</body>
+</html>

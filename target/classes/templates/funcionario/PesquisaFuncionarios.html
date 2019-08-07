@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/LayoutPadrao}"
+	xmlns:cofipa="http://cofipa.pc.com"
+	xmlns:data="http://www.thymeleaf.org/extras/data">
+	
+<head>
+	<title>Pesquisa de funcionários</title>
+</head>
+
+<body>
+<section layout:fragment="conteudo">
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-10">
+					<h1>Pesquisa de funcionários</h1>
+				</div>
+				
+				<div class="col-xs-2">
+					<div class="aw-page-header-controls">
+						<a class="btn  btn-default" th:href="@{/funcionarios/novo}">
+							<i class="glyphicon  glyphicon-plus-sign"></i> <span class="hidden-xs  hidden-sm">Novo Funcionario</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container-fluid">
+		<form method="GET" th:object="${funcionarioFilter}">
+			<div class="row">
+			     <div class="form-group  col-sm-12" >
+					<label class="control-label" for="nome">Nome</label>
+					<input type="text" class="form-control" id="nome" th:field="*{nome}"/>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group  col-sm-8">
+					<label class="control-label" for="email">E-mail</label>
+					<input type="text" class="form-control" id="email" th:field="*{email}"/>
+				</div>
+			
+				
+				<div class="form-group  col-sm-4">
+					<label class="control-label" for="rg">RG</label>
+					<input type="text" class="form-control" id="rg" th:field="*{rg}"/>
+				</div>
+			</div>
+			
+			<div class="row">
+			   <div class="col-sm-3  form-group">
+					<label class="control-label" for="carreira">Carreira</label>
+					<input type="text" class="form-control" id="carreira" th:field="*{carreira}"/>
+				</div>
+			   <div class="col-sm-3  form-group">
+					<label class="control-label" for="rs">RS</label>
+					<input type="text" class="form-control" id="rs" th:field="*{rs}"/>
+				</div>
+		
+		<!--  	<div class="form-group  col-sm-3">
+					<label class="control-label">Status</label>
+					<div>
+						<input type="checkbox" class="js-status" data-size="small" data-off-color="danger" 
+						     data-on-text="Ativo" data-off-text="Inativo" />	
+					</div>
+				</div>	-->
+			</div>
+			
+			<button type="submit" class="btn  btn-primary">Pesquisar</button>
+		</form>
+		
+		<div class="table-responsive  bw-tabela-simples">
+			<table class="table  table-hover">
+				<thead>
+					<tr>
+						<th class="table-funcionarios-col-foto"></th>
+						
+						<th class="table-funcionarios-col-nome">
+						<cofipa:order page="${pagina}" field="nome" text="Nome"/>
+						</th>
+						
+						<th class="table-funcionarios-col-e-mail">
+						<cofipa:order page="${pagina}" field="email" text="Email"/>
+						</th>
+						
+						<th class="table-funcionarios-col-rg">
+						<cofipa:order page="${pagina}" field="rg" text="Rg"/>
+						</th>
+						
+						<th class="table-funcionarios-col-carreira">
+						<cofipa:order page="${pagina}" field="carreira" text="Carreira"/>
+						</th>	
+						
+						<th class="table-funcionarios-col-rs">
+						<cofipa:order page="${pagina}" field="rs" text="Rs"/>
+						</th>
+						
+						<th class="table-funcionarios-col-rs">
+						<cofipa:order page="${pagina}" field="ativo" text="Ativo"/>
+						</th>		
+						
+						<th class="table-funcionarios-col-acoes"></th>
+					</tr>
+				</thead>
+				
+				<tbody>
+					<tr th:each="funcionario : ${pagina.conteudo}">
+						<td class="text-center">
+							<!--  <img th:src="@{/fotos/thumbnail.{foto}(foto=${produto.fotoOuMock})}" class="img-responsive"/> -->
+						</td>
+						
+						<td th:text="${funcionario.nome}">Nome</td>
+						<td th:text="${funcionario.email}">E-mail</td>
+						<td th:text="${funcionario.rg}">RG</td>
+						<td th:text="${funcionario.rs}">RS</td>
+						<td th:text="${funcionario.carreira}">Carreira</td>
+						<td th:text="${funcionario.ativo}">Status</td>
+						
+						<td class="text-center">
+							<a class="btn  btn-link  btn-xs js-tooltip" title="Editar"
+							       th:href="@{/funcionarios/{codigo}(codigo=${funcionario.codigo})}"> 
+								<i class="glyphicon glyphicon-pencil"></i>
+							</a>
+							<a class="btn  btn-link  btn-xs js-tooltip js-exclusao-btn" title="Excluir" href="#" 
+							          data:url="@{/funcionarios/{codigo}(codigo=${funcionario.codigo})}"
+							          data:objeto="${funcionario.nome}">
+								<i class="glyphicon glyphicon-remove"></i>
+							</a>
+						</td>
+					  <tr>
+					    <tr th:if="${pagina.vazia}">
+					      <td colspan="6">Nenhum funcionario encontrado</td>
+						</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<cofipa:pagination page="${pagina}"/>
+	</div>
+
+</section>
+</body>
+</html>

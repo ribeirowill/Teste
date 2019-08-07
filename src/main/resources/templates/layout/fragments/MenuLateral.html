@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:cofipa="http://cofipa.pc.com">
+
+<body>
+<aside class="aw-layout-sidebar  js-sidebar" th:fragment="layout-sidebar">
+		<div class="aw-layout-sidebar__content">
+
+	    	<nav class="aw-menu  js-menu">
+	      		<ul class="aw-menu__list">
+	
+	        		<li class="aw-menu__item">
+	          			<a href="dashboard.html"><i class="fa  fa-fw  fa-home"></i><span>Dashboard</span></a>
+	        		</li>
+	        		
+	        		<li class="aw-menu__item ">
+	          			<a href="#">
+	            			<i class="fa  fa-fw  fa-credit-card"></i><span>Saidas</span>
+	            			<i class="aw-menu__navigation-icon  fa"></i>
+	          			</a>
+	      
+	          			<ul class="aw-menu__list  aw-menu__list--sublist">
+				            <li class="aw-menu__item  aw-menu__item--link" cofipa:menu="@{/saidas}">
+				               <a th:href="@{/saidas/nova}">Nova Saida</a>
+				            </li>
+	                  </ul> 
+	        		<li class="aw-menu__item ">
+	          			<a href="#">
+	            			<i class="fa  fa-fw  fa-truck"></i><span>Estoque</span>
+	            			<i class="aw-menu__navigation-icon  fa"></i>
+	          			</a>
+	      
+	          			<ul class="aw-menu__list  aw-menu__list--sublist">
+				            <li class="aw-menu__item  aw-menu__item--link" cofipa:menu="@{/fornecedores}">
+				               <a th:href="@{/fornecedores}">Fornecedores</a>
+				            </li>
+				            
+				            <li class="aw-menu__item  aw-menu__item--link" cofipa:menu="@{/produtos}">
+				               <a th:href="@{/produtos}">Produtos</a>
+				            </li>
+				            
+				            <li class="aw-menu__item  aw-menu__item--link" cofipa:menu="@{/materiaisInformatica}">
+				               <a th:href="@{/materiaisInformatica}">Materiais Informática</a>
+				            </li>
+				            
+				            <li class="aw-menu__item  aw-menu__item--link" cofipa:menu="@{/materiaisMobiliario}">
+				               <a th:href="@{/materiaisMobiliario}">Materiais Mobiliario</a>
+				            </li>
+	          			</ul>
+	        		</li>
+	
+	        		<li class="aw-menu__item ">
+	          			<a href="#">
+	            			<i class="fa  fa-fw  fa-database"></i><span>Cadastros</span>
+	            			<i class="aw-menu__navigation-icon  fa"></i>
+	          			</a>
+	
+	          			<ul class="aw-menu__list  aw-menu__list--sublist">
+				            <li class="aw-menu__item  aw-menu__item--link" cofipa:menu="@{/patromonioInformatica}">
+				                <a th:href="@{/patrimoniosInformatica/novo}">Patrimônio Informática</a>
+				            </li>
+				            
+				            <li class="aw-menu__item  aw-menu__item--link" cofipa:menu="@{/patromonioMobiliario}">
+				                <a th:href="@{/patrimonioMobiliario/novo}">Patrimônio Mobiliario</a>
+				            </li>
+				            
+				            <li class="aw-menu__item  aw-menu__item--link" cofipa:menu="@{/usuarios}">
+				                <a th:href="@{/usuarios/novo}">Usuários</a>
+				            </li>
+	          			</ul>
+	        		</li>
+	        		
+	        		<li class="aw-menu__item ">
+	          			<a href="#">
+	            			<i class="fa  fa-fw  fa-database"></i><span>Outros</span>
+	            			<i class="aw-menu__navigation-icon  fa"></i>
+	          			</a>
+	
+	          			<ul class="aw-menu__list  aw-menu__list--sublist">
+				            <li class="aw-menu__item  aw-menu__item--link" cofipa:menu="@{/departamentos}">
+				                <a th:href="@{/departamentos/novo}">Departamentos</a>
+				            </li>
+				     
+				            <li class="aw-menu__item  aw-menu__item--link" cofipa:menu="@{/divisoes}">
+				                <a th:href="@{/divisoes/nova}">Divisões</a>
+				            </li>
+				            
+				            <li class="aw-menu__item  aw-menu__item--link" cofipa:menu="@{/secoes}">
+				                <a th:href="@{/secoes/nova}">Seções</a>
+				            </li>
+				            
+				            <li class="aw-menu__item  aw-menu__item--link" cofipa:menu="@{/andares}">
+				                <a th:href="@{/andares/novo}">Andares</a>
+				            </li>
+				            
+				            <li class="aw-menu__item  aw-menu__item--link" cofipa:menu="@{/tipoSistemas}">
+				                <a th:href="@{/tipoSistemas/novo}">Tipo sistemas</a>
+				            </li>
+				            
+				            <li class="aw-menu__item  aw-menu__item--link" cofipa:menu="@{/tipos}">
+				                <a th:href="@{/tipos/novo}">tipo</a>
+				            </li>
+				            
+				             <li class="aw-menu__item  aw-menu__item--link" cofipa:menu="@{/cidades}">
+				                <a th:href="@{/cidades/nova}">Cidades</a>
+				            </li>
+	          			</ul>
+	        		</li>
+	
+	
+	      		</ul>
+	    	</nav>
+		</div>
+	</aside>
+</body>
+</html>	
